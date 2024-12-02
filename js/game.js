@@ -19,6 +19,7 @@ var ground = new GameObject();
 var platform = new GameObject();
 var wall = new GameObject();
 var level = new GameObject();
+var obstacle = []
 
 
 function init()
@@ -26,27 +27,30 @@ function init()
     state = menu
 
     avatar.color = `green`;
-    avatar.w = 20
-    avatar.h = 40
+    avatar.w = 50
+    avatar.h = 50
 
     level.x = 0; 
     level.y = 0;
 
     ground.color = `brown`;
     ground.w = c.width * 5;
-    ground.h = c.height*.25;
+    ground.h = c.height*.05;
     ground.y = c.height - ground.h/2;
     ground.world = level
 
     platform.w = 200;
     platform.h = 34;
+    platform.x = 100;
+    platform.y = 400;
     platform.color = `tan`
     platform.world = level
 
-    wall.h = 200;
-    wall.w = 34;
+    wall.h = 100;
+    wall.w = 100;
     wall.color = `purple`
-    wall.x = 700;
+    wall.x = 300
+    wall.y = 500
     wall.world = level
 
 }
@@ -64,7 +68,7 @@ function menu()
     ctx.fillText("untilted survival game",5,80)
 
     ctx.font = "25px Arial"
-    ctx.fillText("shoot at the enemies by aiming with your mouse, then click.",5,150)
+    ctx.fillText("shoot enemy and survive until 100 score",5,150)
 
     button.render()
 }
@@ -137,16 +141,21 @@ function game()
     //}
 
     //----- Camera Code -----------
-        var dx = c.width/2 - avatar.x
-        var dy = c.height/2 - avatar.y
+        // var dx = c.width/2 - avatar.x
+        // var dy = c.height/2 - avatar.y
         
-        level.x += dx*.05; 
-        avatar.x += dx*.05; 
-        level.y += dy*.15; 
-        avatar.y += dy*.15; 
+        // level.x += dx*.05; 
+        // avatar.x += dx*.05; 
+        // level.y += dy*.15; 
+        // avatar.y += dy*.15; 
     //----------------------------*/
     
+    for(let i=0;i<obstacle.length; i++)
+        {
+         obstacle[i].render();
+        }
 
+    //obstacle[i].render()
     ground.render();
     platform.render();
     wall.render();
