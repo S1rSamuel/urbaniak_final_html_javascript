@@ -14,44 +14,66 @@ function main()
 var state;
 var score = 0
 var button = new GameObject();
+var button2 = new GameObject();
+var button3 = new GameObject();
 var avatar = new GameObject();
 var ground = new GameObject();
 var platform = new GameObject();
 var wall = new GameObject();
 var level = new GameObject();
-var obstacle = []
+var killblock = new GameObject();
+var winblock = new GameObject();
 
 
 function init()
 {
     state = menu
 
-    avatar.color = `green`;
-    avatar.w = 50
-    avatar.h = 50
+    avatar.color = `red`;
+    avatar.w = 40
+    avatar.h = 40
+    avatar.x = 0
 
     level.x = 0; 
     level.y = 0;
 
     ground.color = `brown`;
-    ground.w = c.width * 5;
-    ground.h = c.height*.05;
+    ground.w = c.width * 200;
+    ground.h = c.height*.1;
     ground.y = c.height - ground.h/2;
     ground.world = level
 
     platform.w = 200;
     platform.h = 34;
     platform.x = 100;
-    platform.y = 400;
+    platform.y = 100;
     platform.color = `tan`
     platform.world = level
 
-    wall.h = 100;
-    wall.w = 100;
-    wall.color = `purple`
-    wall.x = 300
-    wall.y = 500
+    wall.h = 50;
+    wall.w = 50;
+    wall.color = `green`
+    wall.x = 500
+    //wall.y = 425
+    wall.y = 300
     wall.world = level
+
+    killblock.h = 50
+    killblock.w = 50
+    killblock.x = 1500
+    killblock.y = 425
+    killblock.color = `black`
+    killblock.world = level
+
+    winblock.h = 50
+    winblock.w = 50
+    winblock.x = 1200
+    winblock.y = 425
+    winblock.color = `blue`
+    winblock.world = level
+
+    button2.x = 200
+    button3.x = 500
 
 }
 
@@ -62,41 +84,58 @@ function menu()
 {
     if(clicked(button))
     {
+        avatar.x = -4000
         state = game;
     }
     ctx.font = "60px Arial"
-    ctx.fillText("untilted survival game",5,80)
+    ctx.fillText("untilted running game",5,80)
 
     ctx.font = "25px Arial"
-    ctx.fillText("shoot enemy and survive until 100 score",5,150)
+    ctx.fillText("press spacebar to jump. dont get rekt.",5,150)
 
     button.render()
 }
 
 function win()
 {
-
+    if(clicked(button3))
+        {
+            state = menu;
+        }
+        ctx.font = "60px Arial"
+        ctx.fillText("you win",5,80)
+    
+        button3.render()
 }
 function lose()
 {
-
+    if(clicked(button2))
+        {
+            state = menu;
+        }
+        ctx.font = "60px Arial"
+        ctx.fillText("you lose",5,80)
+    
+        button2.render()
 }
 
 function game()
 {
+    avatar.vx = 10
+        
     if(sp == true && avatar.canJump == true)
     {
         avatar.canJump = false;
-        avatar.vy = -20;
+        avatar.vy = -15;
     }
 
     if(a == true)
     {
-        avatar.vx += -1;
+        avatar.vx += -25;
     }
     if(d == true)
     {
-        avatar.vx += 1;
+        avatar.vx += 25;
     }
 
     avatar.vx *= .85;
@@ -120,15 +159,22 @@ function game()
         offset.y--;
         avatar.canJump = true;
     }
-    while(wall.isOverPoint(avatar.right()) && avatar.vx >= 0)
+    while(wall.isOverPoint(avatar) && avatar.vx >= 0)
     {
         avatar.vx = 0;
         avatar.x--;
         offset.x--;
     }
 
-    ctx.font = "60px Arial"
-    ctx.fillText(`Score: ${score}`,5,80)
+    if(killblock.isOverPoint(avatar)){
+        state = lose
+    }
+    if(winblock.isOverPoint(avatar)){
+        state = win
+    }
+
+    ctx.font = "40px Arial"
+    ctx.fillText(`Time Alive: ${score}`,5,80)
 
     /*-------Level movement threshold----*/
     //if(avatar.x > 500 || avatar.x < 300)
@@ -141,26 +187,22 @@ function game()
     //}
 
     //----- Camera Code -----------
-        // var dx = c.width/2 - avatar.x
-        // var dy = c.height/2 - avatar.y
+        var dx = c.width/2 - avatar.x - 300
+        var dy = c.height/2 - avatar.y + 100
         
-        // level.x += dx*.05; 
-        // avatar.x += dx*.05; 
-        // level.y += dy*.15; 
-        // avatar.y += dy*.15; 
-    //----------------------------*/
-    
-    for(let i=0;i<obstacle.length; i++)
-        {
-         obstacle[i].render();
-        }
+        level.x += dx*.05; 
+        avatar.x += dx*.2; 
+        level.y += dy*.15; 
+        avatar.y += dy*.15; 
+    //----------------------------*/    
 
     //obstacle[i].render()
     ground.render();
     platform.render();
     wall.render();
     avatar.render();
-    
+    killblock.render();
+    winblock.render();
 }
 
 
