@@ -122,6 +122,10 @@ function lose()
 function game()
 {
     avatar.vx = 10
+
+    for(wall.x < avatar.x){
+        wall.x ++;
+    }
         
     if(sp == true && avatar.canJump == true)
     {
@@ -172,6 +176,8 @@ function game()
     if(winblock.isOverPoint(avatar)){
         state = win
     }
+
+    
 
     ctx.font = "40px Arial"
     ctx.fillText(`Time Alive: ${score}`,5,80)
