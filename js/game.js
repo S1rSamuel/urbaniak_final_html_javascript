@@ -32,7 +32,8 @@ function init()
     avatar.color = `red`;
     avatar.w = 40
     avatar.h = 40
-    avatar.x = 0
+    avatar.x = 100
+    avatar.y = 0
 
     level.x = 0; 
     level.y = 0;
@@ -45,30 +46,30 @@ function init()
 
     platform.w = 200;
     platform.h = 34;
-    platform.x = 100;
-    platform.y = 100;
+    platform.x = 700;
+    platform.y = 200;
     platform.color = `tan`
     platform.world = level
 
     wall.h = 50;
     wall.w = 50;
     wall.color = `green`
-    wall.x = 500
+    wall.x = avatar.x + 800
     //wall.y = 425
     wall.y = 300
     wall.world = level
 
     killblock.h = 50
     killblock.w = 50
-    killblock.x = 1500
-    killblock.y = 425
+    killblock.x = avatar.x + 600
+    killblock.y = 420
     killblock.color = `black`
     killblock.world = level
 
     winblock.h = 50
     winblock.w = 50
-    winblock.x = 1200
-    winblock.y = 425
+    winblock.x = avatar.x + 300
+    winblock.y = 420
     winblock.color = `blue`
     winblock.world = level
 
@@ -84,7 +85,8 @@ function menu()
 {
     if(clicked(button))
     {
-        avatar.x = -4000
+        avatar.x = 100
+        avatar.y = 300
         state = game;
     }
     ctx.font = "60px Arial"
@@ -121,25 +123,43 @@ function lose()
 
 function game()
 {
-    avatar.vx = 10
+    //  winblock.vx - 7;
+    //  wall.vx - 7;
+    //  killblock.vx - 7;
 
-    for(wall.x < avatar.x){
-        wall.x ++;
-    }
+     winblock.x --
+     wall.x --
+     killblock.x --
+
+     winblock.x --
+     wall.x --
+     killblock.x --
+     
+     winblock.x --
+     wall.x --
+     killblock.x --
+
+     winblock.x --
+     wall.x --
+     killblock.x --
+
+     if(avatar.x > winblock.x + 200){
+        winblock.x += rand(1000,2000)
+     }
         
     if(sp == true && avatar.canJump == true)
     {
         avatar.canJump = false;
-        avatar.vy = -15;
+        avatar.vy = -20;
     }
 
     if(a == true)
     {
-        avatar.vx += -25;
+        avatar.vx += -3;
     }
     if(d == true)
     {
-        avatar.vx += 25;
+        avatar.vx += 3;
     }
 
     avatar.vx *= .85;
@@ -177,6 +197,9 @@ function game()
         state = win
     }
 
+    // if(avatar.x >= winblock.x){
+    //     winblock.x = avatar.x + 100
+    // }
     
 
     ctx.font = "40px Arial"
@@ -193,13 +216,13 @@ function game()
     //}
 
     //----- Camera Code -----------
-        var dx = c.width/2 - avatar.x - 300
+        //var dx = c.width/2 - avatar.x - 300
         var dy = c.height/2 - avatar.y + 100
         
-        level.x += dx*.05; 
-        avatar.x += dx*.2; 
-        level.y += dy*.15; 
-        avatar.y += dy*.15; 
+        // level.x += dx*.05; 
+        // avatar.x += dx*.2; 
+        // level.y += dy*.15; 
+        // avatar.y += dy*.15; 
     //----------------------------*/    
 
     //obstacle[i].render()
