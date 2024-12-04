@@ -6,6 +6,7 @@ var a = false;
 var s = false;
 var d = false;
 var sp = false;
+var shoot = false;
 
 /*---Key Press Code-----------*/
 
@@ -18,6 +19,7 @@ function press(e)
     if(e.keyCode == 65){a = true;}
     if(e.keyCode == 68){d = true;}
     if(e.keyCode == 32){sp = true;}
+    if(e.keyCode == 13){shoot = true;}
 }
 
 /*---Key Release Code-----------*/
@@ -29,6 +31,7 @@ function release(e)
     if(e.keyCode == 65){a = false;}
     if(e.keyCode == 68){d = false;}
     if(e.keyCode == 32){sp = false;}
+    if(e.keyCode == 13){shoot = false;}
 }
 
 var mouse = {x:0 ,y:0, pressed:false}

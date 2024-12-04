@@ -23,19 +23,21 @@ var wall = new GameObject();
 var level = new GameObject();
 var killblock = new GameObject();
 var winblock = new GameObject();
+var appleImage = document.getElementById("appleimgg")
+var bugImage = document.getElementById("bugimgg")
 
  var blocks = []
- var numberOfBlocks = 10
+ var numberOfBlocks = 50
  
  for(var i = 0; i<numberOfBlocks; i++){
     blocks[i] = new GameObject()
-    blocks[i].w = 50
-    blocks[i].h = 50
+    blocks[i].w = 60
+    blocks[i].h = 60
     blocks[i].vy = 0
     blocks[i].vx = 0
-    blocks[i].x = rand(500, 5000)
-    blocks[i].y = rand(50, 400)
-    blocks[i].color = "yellow"
+    blocks[i].x = rand(1000, 20000)
+    blocks[i].y = rand(100, 400)
+    blocks[i].color = "black"
 }
 
 function init()
@@ -43,8 +45,8 @@ function init()
     state = menu
 
     avatar.color = `red`;
-    avatar.w = 40
-    avatar.h = 40
+    avatar.w = 35
+    avatar.h = 35
     avatar.x = 100
     avatar.y = 0
 
@@ -80,8 +82,8 @@ function init()
 
     winblock.h = 50
     winblock.w = 50
-    winblock.x = avatar.x + 300
-    winblock.y = 420
+    winblock.x += rand(1000,1000)
+    winblock.y = rand(0,400)
     winblock.color = `blue`
     winblock.world = level
 
@@ -148,17 +150,23 @@ function game()
 
      for(var i = 0; i<blocks.length; i++){
         blocks[i].move()
-        blocks[i].render()
-        blocks[i].vx = -3
+        blocks[i].renderImage(bugImage)
+        blocks[i].vx = rand(0,-10)
         blocks[i].vy = 0
-     }
 
-     if(avatar.x > blocks[i] + 200){
-        blocks[i].x += rand(2000,8000)
-     }        
+        if(blocks[i].isOverPoint(avatar)){
+            state = lose
+        }
+
+        if(blocks[i].x < avatar.x - 500){
+            blocks[i].x = rand(1000, 20000)
+            blocks[i].y = rand(100, 430)
+        }
+     }       
   
      if(avatar.x > winblock.x + 500){
-        winblock.x += rand(2000,8000)
+        winblock.x += rand(1000,1000)
+        winblock.y = rand(100,400)
      }
         
     if(sp == true && avatar.canJump == true){
@@ -203,16 +211,12 @@ function game()
     }
     if(winblock.isOverPoint(avatar)){
         state = win
-        winblock.x += rand(1000,2000)
+        winblock.x += rand(5000,20000)
+        winblock.y = rand(100,400)
     }
     // if(avatar.isOverPoint(blocks[i])){
     //     state = win
     //     (blocks[i]).x += rand(1000,2000)
-    // }
-    
-
-    // if(avatar.x >= winblock.x){
-    //     winblock.x = avatar.x + 100
     // }
 
     ctx.font = "40px Arial"
@@ -242,8 +246,11 @@ function game()
     ground.render();
     platform.render();
     wall.render();
-    avatar.render();
+    avatar.renderImage(appleImage);
     killblock.render();
     winblock.render();
+
+    avatar.angle += 5;
+    //console.log(avatar.angle)
     
 }
