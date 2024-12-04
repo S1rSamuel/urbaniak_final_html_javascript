@@ -24,6 +24,9 @@ var level = new GameObject();
 var killblock = new GameObject();
 var winblock = new GameObject();
 
+ var blocks = []
+ var block = new GameObject();
+// var numberOfBlocks = 10
 
 function init()
 {
@@ -55,7 +58,6 @@ function init()
     wall.w = 50;
     wall.color = `green`
     wall.x = avatar.x + 800
-    //wall.y = 425
     wall.y = 300
     wall.world = level
 
@@ -76,6 +78,13 @@ function init()
     button2.x = 200
     button3.x = 500
 
+    block.h = 50
+    block.w = 50
+    block.x = avatar.x + 300
+    block.y = 420
+    block.color = `blue`
+    block.world = level    
+    
 }
 
 init();
@@ -123,25 +132,42 @@ function lose()
 
 function game()
 {
-    //  winblock.vx - 7;
-    //  wall.vx - 7;
-    //  killblock.vx - 7;
 
      winblock.x --
      wall.x --
      killblock.x --
+     winblock.x --
+     wall.x --
+     killblock.x --
+     winblock.x --
+     wall.x --
+     killblock.x --
+     winblock.x --
+     wall.x --
+     killblock.x --
+     winblock.x --
+     wall.x --
+     killblock.x --
+    //  for(var i = 0; i<numberOfBlocks; i++){
+    //     blocks[i] = new GameObject()
+    //     blocks[i].color = "black"
+    //     blocks[i].w = 50
+    //     blocks[i].h = 50
+    //     blocks[i].x = rand(100,700)
+    //     blocks[i].y = 0
+    //     blocks[i].world = level
+    // }
 
-     winblock.x --
-     wall.x --
-     killblock.x --
-     
-     winblock.x --
-     wall.x --
-     killblock.x --
-
-     winblock.x --
-     wall.x --
-     killblock.x --
+    //  for(var i = 0; i<blocks.length; i++){
+    //     //blocks[i].render()
+    //     //blocks[i].render
+    //     //reset the blocks if they're offscreen from bottom.
+    //     if(blocks[i].y > c.height + blocks[i].h){
+    //         blocks[i].y = rand(-c.height, 0)
+    //         blocks[i].x = rand(0, c.width)   
+    //         //console.log(enemies[i].x, enemies[i].y)
+    //         //enemies[i].vy = -3
+    //     }
 
      if(avatar.x > winblock.x + 200){
         winblock.x += rand(1000,2000)
@@ -155,11 +181,11 @@ function game()
 
     if(a == true)
     {
-        avatar.vx += -3;
+        avatar.vx += -1;
     }
     if(d == true)
     {
-        avatar.vx += 3;
+        avatar.vx += 1;
     }
 
     avatar.vx *= .85;
@@ -195,12 +221,12 @@ function game()
     }
     if(winblock.isOverPoint(avatar)){
         state = win
+        winblock.x += rand(1000,2000)
     }
 
     // if(avatar.x >= winblock.x){
     //     winblock.x = avatar.x + 100
     // }
-    
 
     ctx.font = "40px Arial"
     ctx.fillText(`Time Alive: ${score}`,5,80)
@@ -232,7 +258,5 @@ function game()
     avatar.render();
     killblock.render();
     winblock.render();
+    //blocks[i].render()
 }
-
-
-
