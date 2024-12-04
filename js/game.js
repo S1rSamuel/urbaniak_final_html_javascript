@@ -25,8 +25,18 @@ var killblock = new GameObject();
 var winblock = new GameObject();
 
  var blocks = []
- var block = new GameObject();
-// var numberOfBlocks = 10
+ var numberOfBlocks = 10
+ 
+ for(var i = 0; i<numberOfBlocks; i++){
+    blocks[i] = new GameObject()
+    blocks[i].w = 50
+    blocks[i].h = 50
+    blocks[i].vy = 0
+    blocks[i].vx = 0
+    blocks[i].x = rand(500, 5000)
+    blocks[i].y = rand(50, 400)
+    blocks[i].color = "yellow"
+}
 
 function init()
 {
@@ -77,13 +87,6 @@ function init()
 
     button2.x = 200
     button3.x = 500
-
-    block.h = 50
-    block.w = 50
-    block.x = avatar.x + 300
-    block.y = 420
-    block.color = `blue`
-    block.world = level    
     
 }
 
@@ -132,59 +135,41 @@ function lose()
 
 function game()
 {
+     winblock.x --
+     killblock.x --
+     winblock.x --
+     killblock.x --
+     winblock.x --
+     killblock.x --
+     winblock.x --
+     killblock.x --
+     winblock.x --
+     killblock.x --
 
-     winblock.x --
-     wall.x --
-     killblock.x --
-     winblock.x --
-     wall.x --
-     killblock.x --
-     winblock.x --
-     wall.x --
-     killblock.x --
-     winblock.x --
-     wall.x --
-     killblock.x --
-     winblock.x --
-     wall.x --
-     killblock.x --
-    //  for(var i = 0; i<numberOfBlocks; i++){
-    //     blocks[i] = new GameObject()
-    //     blocks[i].color = "black"
-    //     blocks[i].w = 50
-    //     blocks[i].h = 50
-    //     blocks[i].x = rand(100,700)
-    //     blocks[i].y = 0
-    //     blocks[i].world = level
-    // }
+     for(var i = 0; i<blocks.length; i++){
+        blocks[i].move()
+        blocks[i].render()
+        blocks[i].vx = -3
+        blocks[i].vy = 0
+     }
 
-    //  for(var i = 0; i<blocks.length; i++){
-    //     //blocks[i].render()
-    //     //blocks[i].render
-    //     //reset the blocks if they're offscreen from bottom.
-    //     if(blocks[i].y > c.height + blocks[i].h){
-    //         blocks[i].y = rand(-c.height, 0)
-    //         blocks[i].x = rand(0, c.width)   
-    //         //console.log(enemies[i].x, enemies[i].y)
-    //         //enemies[i].vy = -3
-    //     }
-
-     if(avatar.x > winblock.x + 200){
-        winblock.x += rand(1000,2000)
+     if(avatar.x > blocks[i] + 200){
+        blocks[i].x += rand(2000,8000)
+     }        
+  
+     if(avatar.x > winblock.x + 500){
+        winblock.x += rand(2000,8000)
      }
         
-    if(sp == true && avatar.canJump == true)
-    {
+    if(sp == true && avatar.canJump == true){
         avatar.canJump = false;
         avatar.vy = -20;
     }
 
-    if(a == true)
-    {
+    if(a == true){
         avatar.vx += -1;
     }
-    if(d == true)
-    {
+    if(d == true){
         avatar.vx += 1;
     }
 
@@ -195,22 +180,19 @@ function game()
     //used to move the level. 
     var offset = {x:avatar.vx, y:avatar.vy}
 
-    while(ground.isOverPoint(avatar.bottom()))
-    {
+    while(ground.isOverPoint(avatar.bottom())){
         avatar.vy = 0;
         avatar.y--;
         offset.y--;
         avatar.canJump = true;
     }
-    while(platform.isOverPoint(avatar.bottom()) && avatar.vy >= 0)
-    {
+    while(platform.isOverPoint(avatar.bottom()) && avatar.vy >= 0){
         avatar.vy = 0;
         avatar.y--;
         offset.y--;
         avatar.canJump = true;
     }
-    while(wall.isOverPoint(avatar) && avatar.vx >= 0)
-    {
+    while(wall.isOverPoint(avatar) && avatar.vx >= 0){
         avatar.vx = 0;
         avatar.x--;
         offset.x--;
@@ -223,6 +205,11 @@ function game()
         state = win
         winblock.x += rand(1000,2000)
     }
+    // if(avatar.isOverPoint(blocks[i])){
+    //     state = win
+    //     (blocks[i]).x += rand(1000,2000)
+    // }
+    
 
     // if(avatar.x >= winblock.x){
     //     winblock.x = avatar.x + 100
@@ -258,5 +245,5 @@ function game()
     avatar.render();
     killblock.render();
     winblock.render();
-    //blocks[i].render()
+    
 }
