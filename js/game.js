@@ -21,22 +21,27 @@ var ground = new GameObject();
 var platform = new GameObject();
 var wall = new GameObject();
 var level = new GameObject();
-var killblock = new GameObject();
+var ammoblock = new GameObject();
 var winblock = new GameObject();
+var floorbug = new GameObject();
 var appleImage = document.getElementById("appleimgg")
+var orangeImage = document.getElementById("orangeimgg")
+var orangeImage2 = document.getElementById("orange2imgg")
+var orangeImage2obj = new GameObject();
 var bugImage = document.getElementById("bugimgg")
+var floorBugImage = document.getElementById("bugimgg2")
 
  var blocks = []
  var numberOfBlocks = 50
  
  for(var i = 0; i<numberOfBlocks; i++){
     blocks[i] = new GameObject()
-    blocks[i].w = 60
-    blocks[i].h = 60
+    blocks[i].w = 50
+    blocks[i].h = 50
     blocks[i].vy = 0
     blocks[i].vx = 0
-    blocks[i].x = rand(1000, 20000)
-    blocks[i].y = rand(100, 400)
+    blocks[i].x = rand(1000, 10000)
+    blocks[i].y = rand(100, 430)
     blocks[i].color = "black"
 }
 
@@ -73,22 +78,38 @@ function init()
     wall.y = 300
     wall.world = level
 
-    killblock.h = 50
-    killblock.w = 50
-    killblock.x = avatar.x + 600
-    killblock.y = 420
-    killblock.color = `black`
-    killblock.world = level
+    ammoblock.h = 50
+    ammoblock.w = 50
+    ammoblock.x = avatar.x + 600
+    ammoblock.y = 420
+    ammoblock.color = `black`
+    ammoblock.world = level
+    
+    floorbug.h = 60
+    floorbug.w = 80
+    floorbug.x = avatar.x + 800
+    floorbug.y = 420
+    floorbug.color = `black`
+    floorbug.world = level
 
     winblock.h = 50
     winblock.w = 50
-    winblock.x += rand(1000,1000)
-    winblock.y = rand(0,400)
+    //winblock.x += rand(5000,20000)
+    winblock.x += 1000
+    winblock.y = 425
     winblock.color = `blue`
     winblock.world = level
 
-    button2.x = 200
+    button3.w = 400
+    button3.h = 400
     button3.x = 500
+    button3.y = 250
+    button2.x = 200
+    
+    orangeImage2obj.h = c.height
+    orangeImage2obj.w = c.width
+    orangeImage2obj.x = 400
+    orangeImage2obj.y = 250
     
 }
 
@@ -103,25 +124,35 @@ function menu()
         avatar.y = 300
         state = game;
     }
-    ctx.font = "60px Arial"
-    ctx.fillText("untilted running game",5,80)
+
+    for(var i = 0; i<blocks.length; i++){
+        blocks[i].x = rand(1000, 10000)
+        blocks[i].y = rand(100, 430)
+    }
+    ctx.font = "60px Papyrus"
+    ctx.fillText("FRUIT FUMBLE",5,80)
+    ctx.fillStyle = "black"
 
     ctx.font = "25px Arial"
-    ctx.fillText("press spacebar to jump. dont get rekt.",5,150)
+    ctx.fillText("spacebar to jump, dodge the flies, grab orange to win",5,150)
+    ctx.fillStyle = "black"
 
     button.render()
 }
 
 function win()
 {
-    if(clicked(button3))
-        {
+    if(clicked(button3)){
             state = menu;
         }
-        ctx.font = "60px Arial"
-        ctx.fillText("you win",5,80)
+
+        orangeImage2obj.renderImage(orangeImage2);
+
+        ctx.font = "60px Papyrus"
+        ctx.fillText("you have reunited with your long lost brother",5,80,750)
+        ctx.fillStyle = "white"
     
-        button3.render()
+        //button3.render()
 }
 function lose()
 {
@@ -131,6 +162,7 @@ function lose()
         }
         ctx.font = "60px Arial"
         ctx.fillText("you lose",5,80)
+        ctx.fillStyle = "red"
     
         button2.render()
 }
@@ -138,51 +170,59 @@ function lose()
 function game()
 {
      winblock.x --
-     killblock.x --
+     ammoblock.x --
+     floorbug.x --
      winblock.x --
-     killblock.x --
+     ammoblock.x --
+     floorbug.x --
      winblock.x --
-     killblock.x --
+     ammoblock.x --
+     floorbug.x --
      winblock.x --
-     killblock.x --
-     winblock.x --
-     killblock.x --
+     ammoblock.x --
+     floorbug.x --
+     
 
      for(var i = 0; i<blocks.length; i++){
         blocks[i].move()
         blocks[i].renderImage(bugImage)
-        blocks[i].vx = rand(0,-10)
+        blocks[i].vx = -4
         blocks[i].vy = 0
 
         if(blocks[i].isOverPoint(avatar)){
             state = lose
         }
 
-        if(blocks[i].x < avatar.x - 500){
-            blocks[i].x = rand(1000, 20000)
+        if(blocks[i].x < avatar.x - 600){
+            blocks[i].x = rand(1000, 10000)
             blocks[i].y = rand(100, 430)
         }
      }       
   
-     if(avatar.x > winblock.x + 500){
-        winblock.x += rand(1000,1000)
-        winblock.y = rand(100,400)
+     if(avatar.x > winblock.x + 600){
+        winblock.x += rand(5000,20000)
+     }
+
+     if(avatar.x > floorbug.x + 600){
+        floorbug.x += rand(1000, 1400)
      }
         
     if(sp == true && avatar.canJump == true){
         avatar.canJump = false;
-        avatar.vy = -20;
+        avatar.vy = -16;
     }
 
     if(a == true){
-        avatar.vx += -1;
+        avatar.vx += -1.5;
+        avatar.angle += -11;
     }
     if(d == true){
-        avatar.vx += 1;
+        avatar.vx += 1.5;
+        avatar.angle += 11;
     }
 
     avatar.vx *= .85;
-    avatar.vy += 1;
+    avatar.vy += .7;
     avatar.move();
 
     //used to move the level. 
@@ -206,13 +246,15 @@ function game()
         offset.x--;
     }
 
-    if(killblock.isOverPoint(avatar)){
+    if(ammoblock.isOverPoint(avatar)){
+        state = lose
+    }
+    if(floorbug.isOverPoint(avatar)){
         state = lose
     }
     if(winblock.isOverPoint(avatar)){
         state = win
         winblock.x += rand(5000,20000)
-        winblock.y = rand(100,400)
     }
     // if(avatar.isOverPoint(blocks[i])){
     //     state = win
@@ -242,15 +284,12 @@ function game()
         // avatar.y += dy*.15; 
     //----------------------------*/    
 
-    //obstacle[i].render()
     ground.render();
     platform.render();
     wall.render();
     avatar.renderImage(appleImage);
-    killblock.render();
-    winblock.render();
-
-    avatar.angle += 5;
-    //console.log(avatar.angle)
-    
+    ammoblock.render();
+    floorbug.renderImage(floorBugImage);
+    winblock.renderImage(orangeImage);
+    winblock.angle += -11;
 }
