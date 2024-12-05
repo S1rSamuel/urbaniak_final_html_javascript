@@ -173,6 +173,9 @@ function menu()
     ctx.fillText("dodge the bugs. survive as long as possible. maybe grab the orange.",5,400)
     ctx.fillStyle = "black"
 
+    ctx.font = "35px Papyrus"
+    ctx.fillText("click on the pink square to begin.",5,450)
+
     button.render()
 }
 
