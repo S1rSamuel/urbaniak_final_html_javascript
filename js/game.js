@@ -83,13 +83,13 @@ function init()
 
     ammoblock.h = 75
     ammoblock.w = 50
-    ammoblock.x = 0
+    ammoblock.x = rand(25,500)
     ammoblock.y = rand(-1000,-4000)
     ammoblock.color = `black`
     ammoblock.world = level
 
-    lightning.w = 160
-    lightning.h = 60
+    lightning.w = 210
+    lightning.h = 90
     lightning.x = 2000
     lightning.y = 300
     lightning.color = `yellow`
@@ -135,7 +135,7 @@ function menu()
         state = game;
         lightning.y = 1000
         score = 3
-        ammoblock.x = rand(25,775)
+        ammoblock.x = rand(25,500)
         ammoblock.y = rand(-1000,-4000)
     }
 
@@ -223,8 +223,8 @@ function game()
         winblock.x += rand(5000,20000)
      }
 
-     if(avatar.x > floorbug.x + 400){
-        floorbug.x += rand(1000, 1400)
+     if(floorbug.x < -5){
+        floorbug.x += rand(850, 1300)
      }
 
      if(lightning.x > 1000){
@@ -290,9 +290,12 @@ function game()
     if(ammoblock.isOverPoint(avatar)){
         score ++
         ammoblock.x = rand(25,775)
-        ammoblock.y = rand(-1000,-4000)
+        ammoblock.y = rand(-2000,-5000)
     }
     if(winblock.isOverPoint(floorbug)){
+        floorbug.x = 1000
+    }
+    if(lightning.isOverPoint(floorbug)){
         floorbug.x = 1000
     }
     if(floorbug.isOverPoint(avatar)){
