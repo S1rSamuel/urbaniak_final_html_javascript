@@ -207,6 +207,10 @@ function lose()
         ctx.font = "60px Arial"
         ctx.fillText("you lose",5,80)
         ctx.fillStyle = "red"
+
+        ctx.font = "30px Arial"
+        ctx.fillText("click here to reset game",5,120)
+        ctx.fillStyle = "black"
     
         button2.render()
 }
