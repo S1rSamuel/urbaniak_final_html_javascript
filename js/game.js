@@ -54,7 +54,6 @@ function init()
 {
     state = menu
 
-    avatar.color = `red`;
     avatar.w = 40
     avatar.h = 40
     avatar.x = 100
@@ -98,28 +97,24 @@ function init()
     ammoblock.w = 50
     ammoblock.x = rand(25,500)
     ammoblock.y = rand(-1000,-4000)
-    ammoblock.color = `black`
     ammoblock.world = level
 
     lightning.w = 210
     lightning.h = 90
     lightning.x = 2000
     lightning.y = 300
-    lightning.color = `yellow`
     lightning.world = level
     
     floorbug.h = 70
     floorbug.w = 90
     floorbug.x = avatar.x + 800
     floorbug.y = 415
-    floorbug.color = `black`
     floorbug.world = level
 
     winblock.h = 50
     winblock.w = 50
     winblock.x = rand(3000,12000)
     winblock.y = 425
-    winblock.color = `blue`
     winblock.world = level
 
     button3.w = 400
@@ -222,8 +217,6 @@ function game()
 
         if(blocks[i].isOverPoint(avatar)){
             state = lose
-            winblock.x += rand(3000,12000)
-            floorbug.x += rand(1500,2000)
         }
 
         if(blocks[i].x < avatar.x - 600){
@@ -236,7 +229,7 @@ function game()
      }       
   
      if(avatar.x > winblock.x + 600){
-        winblock.x += (3000,12000)}
+        winblock.x += rand(3000,12000)}
 
      if(floorbug.x < -5){
         floorbug.x += rand(850, 1300)}
