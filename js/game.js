@@ -12,7 +12,7 @@ function main()
 
 //setup
 var state;
-var score = 0
+var score = 3
 var button = new GameObject();
 var button2 = new GameObject();
 var button3 = new GameObject();
@@ -24,15 +24,18 @@ var level = new GameObject();
 var ammoblock = new GameObject();
 var winblock = new GameObject();
 var floorbug = new GameObject();
+var lightning = new GameObject();
 var appleImage = document.getElementById("appleimgg")
 var orangeImage = document.getElementById("orangeimgg")
+var fireImage = document.getElementById("fireimgg")
 var orangeImage2 = document.getElementById("orange2imgg")
 var orangeImage2obj = new GameObject();
 var bugImage = document.getElementById("bugimgg")
 var floorBugImage = document.getElementById("bugimgg2")
+var bugSpray = document.getElementById("sprayimgg")
 
  var blocks = []
- var numberOfBlocks = 50
+ var numberOfBlocks = 70
  
  for(var i = 0; i<numberOfBlocks; i++){
     blocks[i] = new GameObject()
@@ -41,7 +44,7 @@ var floorBugImage = document.getElementById("bugimgg2")
     blocks[i].vy = 0
     blocks[i].vx = 0
     blocks[i].x = rand(1000, 10000)
-    blocks[i].y = rand(100, 430)
+    blocks[i].y = rand(100, 440)
     blocks[i].color = "black"
 }
 
@@ -50,8 +53,8 @@ function init()
     state = menu
 
     avatar.color = `red`;
-    avatar.w = 35
-    avatar.h = 35
+    avatar.w = 40
+    avatar.h = 40
     avatar.x = 100
     avatar.y = 0
 
@@ -78,12 +81,19 @@ function init()
     wall.y = 300
     wall.world = level
 
-    ammoblock.h = 50
+    ammoblock.h = 75
     ammoblock.w = 50
-    ammoblock.x = avatar.x + 600
-    ammoblock.y = 420
+    ammoblock.x = rand(2000,6000)
+    ammoblock.y = rand(100, 440)
     ammoblock.color = `black`
     ammoblock.world = level
+
+    lightning.w = 125
+    lightning.h = 75
+    lightning.x = 2000
+    lightning.y = 300
+    lightning.color = `yellow`
+    lightning.world = level
     
     floorbug.h = 60
     floorbug.w = 80
@@ -95,7 +105,7 @@ function init()
     winblock.h = 50
     winblock.w = 50
     //winblock.x += rand(5000,20000)
-    winblock.x += 1000
+    winblock.x = rand(5000,15000)
     winblock.y = 425
     winblock.color = `blue`
     winblock.world = level
@@ -123,11 +133,15 @@ function menu()
         avatar.x = 100
         avatar.y = 300
         state = game;
+        lightning.y = 1000
+        score = 3
+        ammoblock.x = rand(2000,6000)
+        ammoblock.y = rand(100, 440)
     }
 
     for(var i = 0; i<blocks.length; i++){
         blocks[i].x = rand(1000, 10000)
-        blocks[i].y = rand(100, 430)
+        blocks[i].y = rand(100, 440)
     }
     ctx.font = "60px Papyrus"
     ctx.fillText("FRUIT FUMBLE",5,80)
@@ -138,7 +152,11 @@ function menu()
     ctx.fillStyle = "black"
 
     ctx.font = "25px Arial"
-    ctx.fillText("dodge the bugs. survive as long as possible",5,175)
+    ctx.fillText("press ENTER to shoot your fireball. hold w to ascend.",5,175)
+    ctx.fillStyle = "black"
+
+    ctx.font = "25px Arial"
+    ctx.fillText("dodge the bugs. survive as long as possible",5,400)
     ctx.fillStyle = "black"
 
     button.render()
@@ -183,7 +201,11 @@ function game()
      ammoblock.x --
      winblock.x --
      ammoblock.x --
-     
+     lightning.x ++
+     lightning.x ++
+     lightning.x ++
+     lightning.x ++
+     lightning.x ++
 
      for(var i = 0; i<blocks.length; i++){
         blocks[i].move()
@@ -199,7 +221,11 @@ function game()
 
         if(blocks[i].x < avatar.x - 600){
             blocks[i].x = rand(1000, 10000)
-            blocks[i].y = rand(100, 430)
+            blocks[i].y = rand(100, 440)
+        }
+        if(lightning.isOverPoint(blocks[i])){
+            blocks[i].x = rand(1000, 10000)
+            blocks[i].y = rand(100, 440)
         }
      }       
   
@@ -207,9 +233,20 @@ function game()
         winblock.x += rand(5000,20000)
      }
 
-     if(avatar.x > floorbug.x + 600){
+     if(avatar.x > floorbug.x + 400){
         floorbug.x += rand(1000, 1400)
      }
+
+     if(lightning.x > 1000){
+        lightning.y += 1000
+     }
+
+     if(shoot == true && lightning.x > 1000 && score > 0){
+        lightning.x = avatar.x 
+        lightning.y = avatar.y 
+        score --
+     }
+     
         
     if(sp == true){
         avatar.vy += -.55
@@ -256,7 +293,9 @@ function game()
     }
 
     if(ammoblock.isOverPoint(avatar)){
-        state = lose
+        score ++
+        ammoblock.x += rand(2000,6000)
+        ammoblock.y = rand(100, 440)
     }
     if(winblock.isOverPoint(floorbug)){
         floorbug.x = 1000
@@ -269,7 +308,7 @@ function game()
     if(winblock.isOverPoint(avatar)){
         state = win
         winblock.x += rand(7000,20000)
-        floorbug.x += rand(1500,2000)
+        floorbug.x += rand(1000,1500)
     }
     // if(avatar.isOverPoint(blocks[i])){
     //     state = win
@@ -277,7 +316,7 @@ function game()
     // }
 
     ctx.font = "40px Arial"
-    ctx.fillText(`Time Alive: ${score}`,5,80)
+    ctx.fillText(`Ammo: ${score}`,5,80)
 
     /*-------Level movement threshold----*/
     //if(avatar.x > 500 || avatar.x < 300)
@@ -303,8 +342,9 @@ function game()
     platform.render();
     wall.render();
     avatar.renderImage(appleImage);
-    ammoblock.render();
+    ammoblock.renderImage(bugSpray);
     floorbug.renderImage(floorBugImage);
     winblock.renderImage(orangeImage);
+    lightning.renderImage(fireImage);
     winblock.angle += -11;
 }
