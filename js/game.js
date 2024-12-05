@@ -300,7 +300,7 @@ function game()
 
     if(ammoblock.isOverPoint(avatar)){
         score ++
-        ammoblock.x = rand(25,775)
+        ammoblock.x = rand(25,500)
         ammoblock.y = rand(-2000,-5000) }
 
     if(winblock.isOverPoint(floorbug)){
