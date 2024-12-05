@@ -177,10 +177,8 @@ function game()
      floorbug.x --
      winblock.x --
      ammoblock.x --
-     floorbug.x --
      winblock.x --
      ammoblock.x --
-     floorbug.x --
      
 
      for(var i = 0; i<blocks.length; i++){
@@ -191,6 +189,8 @@ function game()
 
         if(blocks[i].isOverPoint(avatar)){
             state = lose
+            winblock.x += rand(7000,20000)
+            floorbug.x += rand(1500,2000)
         }
 
         if(blocks[i].x < avatar.x - 600){
@@ -207,11 +207,13 @@ function game()
         floorbug.x += rand(1000, 1400)
      }
         
+    if(sp == true){
+        avatar.vy += -.5
+    }
     if(sp == true && avatar.canJump == true){
         avatar.canJump = false;
         avatar.vy = -16;
     }
-
     if(a == true){
         avatar.vx += -1.5;
         avatar.angle += -11;
@@ -222,7 +224,7 @@ function game()
     }
 
     avatar.vx *= .85;
-    avatar.vy += .7;
+    avatar.vy += .9;
     avatar.move();
 
     //used to move the level. 
@@ -249,12 +251,18 @@ function game()
     if(ammoblock.isOverPoint(avatar)){
         state = lose
     }
+    if(winblock.isOverPoint(floorbug)){
+        floorbug.x = 1000
+    }
     if(floorbug.isOverPoint(avatar)){
         state = lose
+        winblock.x += rand(7000,20000)
+        floorbug.x += rand(1500,2000)
     }
     if(winblock.isOverPoint(avatar)){
         state = win
-        winblock.x += rand(5000,20000)
+        winblock.x += rand(7000,20000)
+        floorbug.x += rand(1500,2000)
     }
     // if(avatar.isOverPoint(blocks[i])){
     //     state = win
