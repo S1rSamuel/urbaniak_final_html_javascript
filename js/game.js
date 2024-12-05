@@ -147,7 +147,7 @@ function menu()
         state = game;
         lightning.y = 1000
         score = 3
-        winblock.x += rand(5000,20000)
+        winblock.x += rand(5000,15000)
         ammoblock.x = rand(25,500)
         ammoblock.y = rand(-1000,-4000)
         floorbug.x = 1000
@@ -222,7 +222,7 @@ function game()
 
         if(blocks[i].isOverPoint(avatar)){
             state = lose
-            winblock.x += rand(5000,20000)
+            winblock.x += rand(5000,15000)
             floorbug.x += rand(1500,2000)
         }
 
@@ -232,12 +232,11 @@ function game()
         }
         if(lightning.isOverPoint(blocks[i])){
             blocks[i].x = rand(1000, 10000)
-            blocks[i].y = rand(100, 440)
         }
      }       
   
      if(avatar.x > winblock.x + 600){
-        winblock.x += rand(5000,20000)}
+        winblock.x += rand(5000,15000)}
 
      if(floorbug.x < -5){
         floorbug.x += rand(850, 1300)}
@@ -312,12 +311,12 @@ function game()
 
     if(floorbug.isOverPoint(avatar)){
         state = lose
-        winblock.x += rand(5000,20000)
+        winblock.x += rand(5000,15000)
         floorbug.x += rand(1500,2000) }
 
     if(winblock.isOverPoint(avatar)){
         state = win
-        winblock.x += rand(5000,20000)
+        winblock.x += rand(5000,15000)
         floorbug.x += rand(1000,1500) }
     // if(avatar.isOverPoint(blocks[i])){
     //     state = win
