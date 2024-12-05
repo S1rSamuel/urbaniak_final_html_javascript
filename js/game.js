@@ -31,6 +31,8 @@ var appleImage = document.getElementById("appleimgg")
 var orangeImage = document.getElementById("orangeimgg")
 var fireImage = document.getElementById("fireimgg")
 var orangeImage2 = document.getElementById("orange2imgg")
+var titleImage = document.getElementById("titleimgg")
+var titleImageobj = new GameObject()
 var orangeImage2obj = new GameObject();
 var bugImage = document.getElementById("bugimgg")
 var floorBugImage = document.getElementById("bugimgg2")
@@ -113,20 +115,26 @@ function init()
 
     winblock.h = 50
     winblock.w = 50
-    winblock.x = rand(3000,12000)
+    winblock.x = rand(5000,15000)
     winblock.y = 425
     winblock.world = level
 
-    button3.w = 400
-    button3.h = 400
-    button3.x = 500
-    button3.y = 250
+    button.w = 400
+    button.h = 400
+    button.x = 600
+    button.y = 250
+    button3.x = 200
     button2.x = 200
     
     orangeImage2obj.h = c.height
     orangeImage2obj.w = c.width
     orangeImage2obj.x = 400
     orangeImage2obj.y = 250
+
+    titleImageobj.h = c.height
+    titleImageobj.w = c.width
+    titleImageobj.x = 400
+    titleImageobj.y = 250
     
 }
 
@@ -142,7 +150,7 @@ function menu()
         state = game;
         lightning.y = 1000
         score = 3
-        winblock.x += rand(3000,12000)
+        winblock.x += rand(5000,15000)
         ammoblock.x = rand(25,500)
         ammoblock.y = rand(-1000,-4000)
         floorbug.x = 1000
@@ -152,26 +160,28 @@ function menu()
         blocks[i].x = rand(1000, 10000)
         blocks[i].y = rand(100, 440)
     }
-    ctx.font = "60px Papyrus"
-    ctx.fillText("FRUIT FUMBLE",5,80)
-    ctx.fillStyle = "black"
+    titleImageobj.renderImage(titleImage)
+//
+    // ctx.font = "60px Papyrus"
+    // ctx.fillText("FRUIT FUMBLE",5,80)
+    // ctx.fillStyle = "black"
 
-    ctx.font = "25px Arial"
-    ctx.fillText("A & D keys to move. tap spacebar to jump. hold to go higher.",5,130)
-    ctx.fillStyle = "black"
+    // ctx.font = "25px Arial"
+    // ctx.fillText("A & D keys to move. tap spacebar to jump. hold to go higher.",5,130)
+    // ctx.fillStyle = "black"
 
-    ctx.font = "25px Arial"
-    ctx.fillText("press ENTER to shoot your fireball. hold w to ascend.",5,175)
-    ctx.fillStyle = "black"
+    // ctx.font = "25px Arial"
+    // ctx.fillText("press ENTER to shoot your fireball. hold w to ascend.",5,175)
+    // ctx.fillStyle = "black"
 
-    ctx.font = "25px Arial"
-    ctx.fillText("dodge the bugs. survive as long as possible. maybe grab the orange.",5,400)
-    ctx.fillStyle = "black"
+    // ctx.font = "25px Arial"
+    // ctx.fillText("dodge the bugs. survive as long as possible. maybe grab the orange.",5,400)
+    // ctx.fillStyle = "black"
 
-    ctx.font = "35px Papyrus"
-    ctx.fillText("click on the pink square to begin.",5,450)
+    // ctx.font = "35px Papyrus"
+    // ctx.fillText("click on the pink square to begin.",5,450)
 
-    button.render()
+    //button.render()
 }
 
 function win()
@@ -186,7 +196,7 @@ function win()
         ctx.fillText("you have reunited with your long lost brother",5,80,750)
         ctx.fillStyle = "white"
     
-        //button3.render()
+        button3.render()
 }
 function lose()
 {
@@ -229,7 +239,7 @@ function game()
      }       
   
      if(avatar.x > winblock.x + 600){
-        winblock.x += rand(3000,12000)}
+        winblock.x += rand(5000,15000)}
 
      if(floorbug.x < -5){
         floorbug.x += rand(850, 1300)}
