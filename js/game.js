@@ -88,8 +88,8 @@ function init()
     ammoblock.color = `black`
     ammoblock.world = level
 
-    lightning.w = 125
-    lightning.h = 75
+    lightning.w = 160
+    lightning.h = 60
     lightning.x = 2000
     lightning.y = 300
     lightning.color = `yellow`
