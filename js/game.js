@@ -83,8 +83,8 @@ function init()
 
     ammoblock.h = 75
     ammoblock.w = 50
-    ammoblock.x = rand(2000,6000)
-    ammoblock.y = rand(100, 440)
+    ammoblock.x = 0
+    ammoblock.y = rand(-1000,-4000)
     ammoblock.color = `black`
     ammoblock.world = level
 
@@ -135,8 +135,8 @@ function menu()
         state = game;
         lightning.y = 1000
         score = 3
-        ammoblock.x = rand(2000,6000)
-        ammoblock.y = rand(100, 440)
+        ammoblock.x = rand(25,775)
+        ammoblock.y = rand(-1000,-4000)
     }
 
     for(var i = 0; i<blocks.length; i++){
@@ -191,21 +191,11 @@ function lose()
 
 function game()
 {
-     winblock.x --
-     ammoblock.x --
-     floorbug.x --
-     winblock.x --
-     ammoblock.x --
-     floorbug.x --
-     winblock.x --
-     ammoblock.x --
-     winblock.x --
-     ammoblock.x --
-     lightning.x ++
-     lightning.x ++
-     lightning.x ++
-     lightning.x ++
-     lightning.x ++
+     winblock.x -- ; winblock.x -- ; winblock.x -- ; winblock.x -- ; winblock.x -- ;
+     floorbug.x -- ; floorbug.x --
+     lightning.x ++ ; lightning.x ++ ; lightning.x ++ ; lightning.x ++ ; lightning.x ++ ; lightning.x ++
+     ammoblock.y ++ ; ammoblock.y ++ ; ammoblock.y ++
+     
 
      for(var i = 0; i<blocks.length; i++){
         blocks[i].move()
@@ -280,6 +270,11 @@ function game()
         offset.y--;
         avatar.canJump = true;
     }
+    while(ground.isOverPoint(ammoblock.bottom())){
+        ammoblock.vy = 0;
+        ammoblock.y--;
+        offset.y--;
+    }
     while(platform.isOverPoint(avatar.bottom()) && avatar.vy >= 0){
         avatar.vy = 0;
         avatar.y--;
@@ -294,8 +289,8 @@ function game()
 
     if(ammoblock.isOverPoint(avatar)){
         score ++
-        ammoblock.x += rand(2000,6000)
-        ammoblock.y = rand(100, 440)
+        ammoblock.x = rand(25,775)
+        ammoblock.y = rand(-1000,-4000)
     }
     if(winblock.isOverPoint(floorbug)){
         floorbug.x = 1000
