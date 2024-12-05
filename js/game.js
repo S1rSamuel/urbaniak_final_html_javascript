@@ -170,7 +170,7 @@ function menu()
     ctx.fillStyle = "black"
 
     ctx.font = "25px Arial"
-    ctx.fillText("dodge the bugs. survive as long as possible",5,400)
+    ctx.fillText("dodge the bugs. survive as long as possible. maybe grab the orange.",5,400)
     ctx.fillStyle = "black"
 
     button.render()
