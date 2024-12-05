@@ -134,7 +134,11 @@ function menu()
     ctx.fillStyle = "black"
 
     ctx.font = "25px Arial"
-    ctx.fillText("spacebar to jump, dodge the flies, grab orange to win",5,150)
+    ctx.fillText("A & D keys to move. tap spacebar to jump. hold to go higher.",5,130)
+    ctx.fillStyle = "black"
+
+    ctx.font = "25px Arial"
+    ctx.fillText("dodge the bugs. survive as long as possible",5,175)
     ctx.fillStyle = "black"
 
     button.render()
@@ -208,11 +212,11 @@ function game()
      }
         
     if(sp == true){
-        avatar.vy += -.5
+        avatar.vy += -.55
     }
     if(sp == true && avatar.canJump == true){
         avatar.canJump = false;
-        avatar.vy = -16;
+        avatar.vy = -14;
     }
     if(a == true){
         avatar.vx += -1.5;
@@ -221,6 +225,9 @@ function game()
     if(d == true){
         avatar.vx += 1.5;
         avatar.angle += 11;
+    }
+    if(fly == true){
+        avatar.vy += -1.5
     }
 
     avatar.vx *= .85;
