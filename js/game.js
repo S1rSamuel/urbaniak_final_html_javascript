@@ -18,8 +18,10 @@ var button2 = new GameObject();
 var button3 = new GameObject();
 var avatar = new GameObject();
 var ground = new GameObject();
+var wallsky = new GameObject();
 var platform = new GameObject();
-var wall = new GameObject();
+var wallright = new GameObject();
+var wallleft = new GameObject();
 var level = new GameObject();
 var ammoblock = new GameObject();
 var winblock = new GameObject();
@@ -74,12 +76,23 @@ function init()
     platform.color = `tan`
     platform.world = level
 
-    wall.h = 50;
-    wall.w = 50;
-    wall.color = `green`
-    wall.x = avatar.x + 800
-    wall.y = 300
-    wall.world = level
+    wallright.h = 500;
+    wallright.w = 50;
+    wallright.x = 825
+    wallright.y = 250
+    wallright.world = level
+
+    wallleft.h = 500;
+    wallleft.w = 50;
+    wallleft.x = -25
+    wallleft.y = 250
+    wallleft.world = level
+
+    wallsky.h = 50;
+    wallsky.w = 800;
+    wallsky.x = 400
+    wallsky.y = -25
+    wallsky.world = level
 
     ammoblock.h = 75
     ammoblock.w = 50
@@ -95,16 +108,15 @@ function init()
     lightning.color = `yellow`
     lightning.world = level
     
-    floorbug.h = 60
-    floorbug.w = 80
+    floorbug.h = 70
+    floorbug.w = 90
     floorbug.x = avatar.x + 800
-    floorbug.y = 420
+    floorbug.y = 415
     floorbug.color = `black`
     floorbug.world = level
 
     winblock.h = 50
     winblock.w = 50
-    //winblock.x += rand(5000,20000)
     winblock.x = rand(5000,15000)
     winblock.y = 425
     winblock.color = `blue`
@@ -135,8 +147,10 @@ function menu()
         state = game;
         lightning.y = 1000
         score = 3
+        winblock.x += rand(5000,20000)
         ammoblock.x = rand(25,500)
         ammoblock.y = rand(-1000,-4000)
+        floorbug.x = 1000
     }
 
     for(var i = 0; i<blocks.length; i++){
@@ -205,7 +219,7 @@ function game()
 
         if(blocks[i].isOverPoint(avatar)){
             state = lose
-            winblock.x += rand(7000,20000)
+            winblock.x += rand(5000,20000)
             floorbug.x += rand(1500,2000)
         }
 
@@ -220,42 +234,33 @@ function game()
      }       
   
      if(avatar.x > winblock.x + 600){
-        winblock.x += rand(5000,20000)
-     }
+        winblock.x += rand(5000,20000)}
 
      if(floorbug.x < -5){
-        floorbug.x += rand(850, 1300)
-     }
+        floorbug.x += rand(850, 1300)}
 
      if(lightning.x > 1000){
-        lightning.y += 1000
-     }
+        lightning.y += 1000}
 
      if(shoot == true && lightning.x > 1000 && score > 0){
         lightning.x = avatar.x 
         lightning.y = avatar.y 
-        score --
-     }
+        score -- }
      
         
     if(sp == true){
-        avatar.vy += -.55
-    }
+        avatar.vy += -.55 }
     if(sp == true && avatar.canJump == true){
         avatar.canJump = false;
-        avatar.vy = -14;
-    }
+        avatar.vy = -14; }
     if(a == true){
         avatar.vx += -1.5;
-        avatar.angle += -11;
-    }
+        avatar.angle += -11; }
     if(d == true){
         avatar.vx += 1.5;
-        avatar.angle += 11;
-    }
+        avatar.angle += 11; }
     if(fly == true){
-        avatar.vy += -1.5
-    }
+        avatar.vy += -1.5 }
 
     avatar.vx *= .85;
     avatar.vy += .9;
@@ -268,46 +273,49 @@ function game()
         avatar.vy = 0;
         avatar.y--;
         offset.y--;
-        avatar.canJump = true;
-    }
+        avatar.canJump = true; }
     while(ground.isOverPoint(ammoblock.bottom())){
         ammoblock.vy = 0;
         ammoblock.y--;
-        offset.y--;
-    }
+        offset.y--; }
     while(platform.isOverPoint(avatar.bottom()) && avatar.vy >= 0){
         avatar.vy = 0;
         avatar.y--;
         offset.y--;
-        avatar.canJump = true;
-    }
-    while(wall.isOverPoint(avatar) && avatar.vx >= 0){
+        avatar.canJump = true; }
+    while(wallright.isOverPoint(avatar.right()) && avatar.vx >= 0){
         avatar.vx = 0;
         avatar.x--;
-        offset.x--;
-    }
+        offset.x--; }
+    while(wallleft.isOverPoint(avatar.left()) && avatar.vx <= 0){
+        avatar.vx = 0;
+        avatar.x++;
+        offset.x++; }
+    while(wallsky.isOverPoint(avatar.top()) && avatar.vy <= 0){
+        avatar.vy = 0;
+        avatar.y++;
+        offset.y++; }
 
     if(ammoblock.isOverPoint(avatar)){
         score ++
         ammoblock.x = rand(25,775)
-        ammoblock.y = rand(-2000,-5000)
-    }
+        ammoblock.y = rand(-2000,-5000) }
+
     if(winblock.isOverPoint(floorbug)){
-        floorbug.x = 1000
-    }
+        floorbug.x = 1000 }
+
     if(lightning.isOverPoint(floorbug)){
-        floorbug.x = 1000
-    }
+        floorbug.x = 1000 }
+
     if(floorbug.isOverPoint(avatar)){
         state = lose
-        winblock.x += rand(7000,20000)
-        floorbug.x += rand(1500,2000)
-    }
+        winblock.x += rand(5000,20000)
+        floorbug.x += rand(1500,2000) }
+
     if(winblock.isOverPoint(avatar)){
         state = win
-        winblock.x += rand(7000,20000)
-        floorbug.x += rand(1000,1500)
-    }
+        winblock.x += rand(5000,20000)
+        floorbug.x += rand(1000,1500) }
     // if(avatar.isOverPoint(blocks[i])){
     //     state = win
     //     (blocks[i]).x += rand(1000,2000)
@@ -338,7 +346,7 @@ function game()
 
     ground.render();
     platform.render();
-    wall.render();
+    //wallsky.render();
     avatar.renderImage(appleImage);
     ammoblock.renderImage(bugSpray);
     floorbug.renderImage(floorBugImage);
