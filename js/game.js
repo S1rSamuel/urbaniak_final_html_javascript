@@ -4,6 +4,22 @@ var ctx = c.getContext(`2d`)
 var fps = 1000/60
 var timer = setInterval(main, fps)
 
+var seconds = 0;
+var minutes = 0;
+var bestTime;
+
+
+var time = setInterval(clock, 1000);
+
+function clock(){
+    seconds += 1;
+    if(seconds == 60){
+        minutes++;
+        seconds = 0;
+    }
+   console.log(minutes + ":" + seconds);
+}
+
 function main()
 {
     ctx.clearRect(0,0,c.width,c.height); 
@@ -27,13 +43,13 @@ var ammoblock = new GameObject();
 var winblock = new GameObject();
 var floorbug = new GameObject();
 var lightning = new GameObject();
+var titleImageobj = new GameObject()
+var orangeImage2obj = new GameObject();
 var appleImage = document.getElementById("appleimgg")
 var orangeImage = document.getElementById("orangeimgg")
 var fireImage = document.getElementById("fireimgg")
 var orangeImage2 = document.getElementById("orange2imgg")
 var titleImage = document.getElementById("titleimgg")
-var titleImageobj = new GameObject()
-var orangeImage2obj = new GameObject();
 var bugImage = document.getElementById("bugimgg")
 var floorBugImage = document.getElementById("bugimgg2")
 var bugSpray = document.getElementById("sprayimgg")
@@ -154,6 +170,8 @@ function menu()
         ammoblock.x = rand(25,500)
         ammoblock.y = rand(-1000,-4000)
         floorbug.x = 1000
+        seconds = 0;
+        minutes = 0;
     }
 
     for(var i = 0; i<blocks.length; i++){
@@ -200,9 +218,12 @@ function win()
 }
 function lose()
 {
+
     if(clicked(button2))
         {
             state = menu;
+            minutes = 0;
+            seconds = 0;
         }
         ctx.font = "60px Arial"
         ctx.fillText("you lose",5,80)
@@ -210,6 +231,7 @@ function lose()
 
         ctx.font = "30px Arial"
         ctx.fillText("click here to reset game",5,120)
+        ctx.fillText(`Your Time:${bestTime}`,5,160)
         ctx.fillStyle = "black"
     
         button2.render()
@@ -231,15 +253,13 @@ function game()
 
         if(blocks[i].isOverPoint(avatar)){
             state = lose
+            bestTime = seconds<10 ? `${minutes}:0${seconds}`:`${minutes}:${seconds}`;
         }
-
         if(blocks[i].x < avatar.x - 600){
             blocks[i].x = rand(1000, 10000)
-            blocks[i].y = rand(100, 440)
-        }
+            blocks[i].y = rand(100, 440) }
         if(lightning.isOverPoint(blocks[i])){
-            blocks[i].x = rand(1000, 10000)
-        }
+            blocks[i].x = rand(1000, 10000) }
      }       
   
      if(avatar.x > winblock.x + 600){
@@ -256,7 +276,6 @@ function game()
         lightning.y = avatar.y 
         score -- }
      
-        
     if(sp == true){
         avatar.vy += -.55 }
     if(sp == true && avatar.canJump == true){
@@ -317,7 +336,9 @@ function game()
         floorbug.x = 1000 }
 
     if(floorbug.isOverPoint(avatar)){
-        state = lose}
+        state = lose
+        bestTime = seconds<10 ? `${minutes}:0${seconds}`:`${minutes}:${seconds}`;
+    }
 
     if(winblock.isOverPoint(avatar)){
         state = win}
@@ -328,6 +349,12 @@ function game()
 
     ctx.font = "40px Arial"
     ctx.fillText(`Ammo: ${score}`,5,80)
+    
+    if(seconds < 10){
+        ctx.fillText(`${minutes}:0${seconds}`,25,50)
+    }else{
+        ctx.fillText(`${minutes}:${seconds}`,25,50)
+    }
 
     /*-------Level movement threshold----*/
     //if(avatar.x > 500 || avatar.x < 300)
