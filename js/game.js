@@ -45,6 +45,8 @@ var floorbug = new GameObject();
 var lightning = new GameObject();
 var titleImageobj = new GameObject()
 var orangeImage2obj = new GameObject();
+var kitchenBackgroundObj = new GameObject();
+var loseScreenObj = new GameObject();
 var appleImage = document.getElementById("appleimgg")
 var orangeImage = document.getElementById("orangeimgg")
 var fireImage = document.getElementById("fireimgg")
@@ -53,6 +55,8 @@ var titleImage = document.getElementById("titleimgg")
 var bugImage = document.getElementById("bugimgg")
 var floorBugImage = document.getElementById("bugimgg2")
 var bugSpray = document.getElementById("sprayimgg")
+var kitchenBackground = document.getElementById("kitchenimgg")
+var loseScreen = document.getElementById("losescreenimgg")
 
  var blocks = []
  var numberOfBlocks = 70
@@ -140,7 +144,11 @@ function init()
     button.x = 600
     button.y = 250
     button3.x = 200
-    button2.x = 200
+    
+    button2.x = 130
+    button2.y = 300
+    button2.w = 300
+    button2.h = 300
     
     orangeImage2obj.h = c.height
     orangeImage2obj.w = c.width
@@ -151,6 +159,16 @@ function init()
     titleImageobj.w = c.width
     titleImageobj.x = 400
     titleImageobj.y = 250
+
+    loseScreenObj.h = c.height
+    loseScreenObj.w = c.width
+    loseScreenObj.x = 400
+    loseScreenObj.y = 250
+
+    kitchenBackgroundObj.h = c.height * 1.5
+    kitchenBackgroundObj.w = c.width * 1.5
+    kitchenBackgroundObj.x = 400
+    kitchenBackgroundObj.y = 250
     
 }
 
@@ -172,6 +190,8 @@ function menu()
         floorbug.x = 1000
         seconds = 0;
         minutes = 0;
+        kitchenBackgroundObj.x = 400
+        kitchenBackgroundObj.y = 250
     }
 
     for(var i = 0; i<blocks.length; i++){
@@ -214,7 +234,7 @@ function win()
         ctx.fillText("you have reunited with your long lost brother",5,80,750)
         ctx.fillStyle = "white"
     
-        button3.render()
+        //button3.render()
 }
 function lose()
 {
@@ -234,7 +254,8 @@ function lose()
         ctx.fillText(`Your Time:${bestTime}`,5,160)
         ctx.fillStyle = "black"
     
-        button2.render()
+        loseScreenObj.renderImage(loseScreen)
+        //button2.render()
 }
 
 function game()
@@ -244,6 +265,18 @@ function game()
      lightning.x ++ ; lightning.x ++ ; lightning.x ++ ; lightning.x ++ ; lightning.x ++ ; lightning.x ++
      ammoblock.y ++ ; ammoblock.y ++ ; ammoblock.y ++
      
+     
+     kitchenBackgroundObj.renderImage(kitchenBackground);
+     kitchenBackgroundObj.move()
+     kitchenBackgroundObj.vx *= .85;
+    //  kitchenBackgroundObj.vy += .1;
+
+    //  if(kitchenBackgroundObj.y > 300){
+    //     kitchenBackgroundObj.vy += -1;
+    //  }
+    //  if(canJump = false){
+    //     kitchenBackgroundObj.vy += -1;
+    //  }
 
      for(var i = 0; i<blocks.length; i++){
         blocks[i].move()
@@ -280,15 +313,20 @@ function game()
         avatar.vy += -.55 }
     if(sp == true && avatar.canJump == true){
         avatar.canJump = false;
-        avatar.vy = -14; }
+        avatar.vy = -14;
+        //kitchenBackgroundObj.vy += 1 
+    }
     if(a == true){
         avatar.vx += -1.5;
-        avatar.angle += -11; }
+        avatar.angle += -11;
+        kitchenBackgroundObj.vx += 0.1}
     if(d == true){
         avatar.vx += 1.5;
-        avatar.angle += 11; }
+        avatar.angle += 11;
+        kitchenBackgroundObj.vx += -0.1}
     if(fly == true){
         avatar.vy += -1.5 }
+   
 
     avatar.vx *= .85;
     avatar.vy += .9;
@@ -376,7 +414,8 @@ function game()
         // avatar.y += dy*.15; 
     //----------------------------*/    
 
-    ground.render();
+    
+    //ground.render();
     platform.render();
     //wallsky.render();
     avatar.renderImage(appleImage);
