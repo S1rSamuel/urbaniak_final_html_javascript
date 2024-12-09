@@ -315,11 +315,11 @@ function game()
     if(a == true){
         avatar.vx += -1.5;
         avatar.angle += -11;
-        kitchenBackgroundObj.vx += 0.1}
+        kitchenBackgroundObj.vx += 0.05}
     if(d == true){
         avatar.vx += 1.5;
         avatar.angle += 11;
-        kitchenBackgroundObj.vx += -0.1}
+        kitchenBackgroundObj.vx += -0.05}
     if(fly == true){
         avatar.vy += -1.5 }
    
