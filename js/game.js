@@ -35,7 +35,7 @@ var button3 = new GameObject();
 var avatar = new GameObject();
 var ground = new GameObject();
 var wallsky = new GameObject();
-var platform = new GameObject();
+//var platform = new GameObject();
 var wallright = new GameObject();
 var wallleft = new GameObject();
 var level = new GameObject();
@@ -90,12 +90,12 @@ function init()
     ground.y = c.height - ground.h/2;
     ground.world = level
 
-    platform.w = 200;
-    platform.h = 34;
-    platform.x = 700;
-    platform.y = 200;
-    platform.color = `tan`
-    platform.world = level
+    // platform.w = 200;
+    // platform.h = 34;
+    // platform.x = 700;
+    // platform.y = 200;
+    // platform.color = `tan`
+    // platform.world = level
 
     wallright.h = 500;
     wallright.w = 50;
@@ -245,16 +245,12 @@ function lose()
             minutes = 0;
             seconds = 0;
         }
+        loseScreenObj.renderImage(loseScreen)
         ctx.font = "60px Arial"
-        ctx.fillText("you lose",5,80)
-        ctx.fillStyle = "red"
-
-        ctx.font = "30px Arial"
-        ctx.fillText("click here to reset game",5,120)
-        ctx.fillText(`Your Time:${bestTime}`,5,160)
+        ctx.fillText(`Your Time:${bestTime}`,5,450)
         ctx.fillStyle = "black"
     
-        loseScreenObj.renderImage(loseScreen)
+        
         //button2.render()
 }
 
@@ -344,11 +340,11 @@ function game()
         ammoblock.vy = 0;
         ammoblock.y--;
         offset.y--; }
-    while(platform.isOverPoint(avatar.bottom()) && avatar.vy >= 0){
-        avatar.vy = 0;
-        avatar.y--;
-        offset.y--;
-        avatar.canJump = true; }
+    // while(platform.isOverPoint(avatar.bottom()) && avatar.vy >= 0){
+    //     avatar.vy = 0;
+    //     avatar.y--;
+    //     offset.y--;
+    //     avatar.canJump = true; }
     while(wallright.isOverPoint(avatar.right()) && avatar.vx >= 0){
         avatar.vx = 0;
         avatar.x--;
@@ -385,14 +381,16 @@ function game()
     //     (blocks[i]).x += rand(1000,2000)
     // }
 
-    ctx.font = "40px Arial"
-    ctx.fillText(`Ammo: ${score}`,5,80)
+    ctx.font = "40px Papyrus"
+    ctx.fillText(`Ammo: ${score}`,600,50)
+    ctx.fillStyle = "black"
     
     if(seconds < 10){
         ctx.fillText(`${minutes}:0${seconds}`,25,50)
     }else{
         ctx.fillText(`${minutes}:${seconds}`,25,50)
     }
+    ctx.fillStyle = "white"
 
     /*-------Level movement threshold----*/
     //if(avatar.x > 500 || avatar.x < 300)
@@ -416,7 +414,7 @@ function game()
 
     
     //ground.render();
-    platform.render();
+    //platform.render();
     //wallsky.render();
     avatar.renderImage(appleImage);
     ammoblock.renderImage(bugSpray);
